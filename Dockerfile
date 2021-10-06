@@ -16,6 +16,7 @@ ENV INFLUX_BUCKET="BUCKET"
 ENV INFLUX_TOKEN="TOKEN" 
 ENV PIHOLE_HOSTS="ip1:port1:name1,ip2:port2:name2" 
 ENV INFLUX_SERVICE_TAG="pihole"
+ENV DEBUG="false"
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
             CMD grep OK /healthcheck || exit 1
 ENTRYPOINT [ "python", "/pihole-to-influxdb2.py" ]
