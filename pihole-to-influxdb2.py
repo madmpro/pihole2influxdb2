@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
             req = urllib.request.Request("https://{host}")
             try:
-                response = urlopen(req)
+                response = urllib.request.urlopen(req)
             except HTTPError as e:
                 print('The server couldn\'t fulfill the request.')
                 print('Error code: ', e.code)
