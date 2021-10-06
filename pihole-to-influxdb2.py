@@ -99,7 +99,7 @@ if __name__ == '__main__':
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
 
             try:
-                with urllib.request.urlopen(f"http://{host}:{host_port}/admin/api.php", timeout=10) as url:
+                with urllib.request.urlopen(f"https://{host}:{host_port}/admin/api.php", timeout=10) as url:
                     stats = json.loads(url.read().decode())
             except URLError as e:
                 failure = True
