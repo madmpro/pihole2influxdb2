@@ -98,7 +98,7 @@ if __name__ == '__main__':
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
 
-            req = Request("https://{host}")
+            req = urllib.request.Request("https://{host}")
             try:
                 response = urlopen(req)
             except HTTPError as e:
