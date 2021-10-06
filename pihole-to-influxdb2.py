@@ -29,7 +29,7 @@ PIHOLE_HOSTS = getenv("PIHOLE_HOSTS")
 RUN_EVERY_SECONDS = int(getenv("RUN_EVERY_SECONDS"))
 VERBOSE = getenv("VERBOSE")
 
-DEBUG = 0
+DEBUG = getenv("DEBUG")
 
 
 def sigterm_handler(signum, frame):
