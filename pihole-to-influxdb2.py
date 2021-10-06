@@ -3,7 +3,7 @@ import sys
 import json
 import argparse
 import urllib.request
-from urllib.error import URLError
+from urllib.error import URLError, HTTPError
 from datetime import datetime
 from time import sleep
 from os import getenv
@@ -98,6 +98,19 @@ if __name__ == '__main__':
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
 
+            req = Request("https://{host}")
+            try:
+                response = urlopen(req)
+            except HTTPError as e:
+                print('The server couldn\'t fulfill the request.')
+                print('Error code: ', e.code)
+            except URLError as e:
+                print('We failed to reach a server.')
+                print('Reason: ', e.reason)
+            else:
+                print ('Website is working fine')
+
+                
             try:
                 with urllib.request.urlopen(f"https://{host}:{host_port}/admin/api.php", timeout=10) as url:
                     stats = json.loads(url.read().decode())
