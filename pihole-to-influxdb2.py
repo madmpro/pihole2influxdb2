@@ -117,8 +117,12 @@ if __name__ == '__main__':
 
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Ping: {PIHOLE_API}")
-                ping(PIHOLE_API)           
+                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Ping: {host}")
+                ping(host)   
+                response = requests.get(PIHOLE_API, timeout=10, verify=0,)
+                stats = json.loads(response.json())
+                print(json.dumps(stats, indent=4))
+
            
             try:
                 with urllib.request.urlopen(f"http://{host}:{host_port}/admin/api.php", timeout=10) as url:
