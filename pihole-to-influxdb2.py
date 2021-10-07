@@ -118,7 +118,7 @@ if __name__ == '__main__':
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
                 print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Ping: {PIHOLE_API}")
-                ping(PIHOLE_HOSTS_DICT)           
+                ping(PIHOLE_API)           
            
             try:
                 with urllib.request.urlopen(f"http://{host}:{host_port}/admin/api.php", timeout=10) as url:
