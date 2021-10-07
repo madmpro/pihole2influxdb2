@@ -31,7 +31,6 @@ VERBOSE = getenv("VERBOSE")
 
 DEBUG = getenv("DEBUG")
 
-
 def sigterm_handler(signum, frame):
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SIGTERM received, shutting down..", file=sys.stderr)
     sys.exit(0)
@@ -97,22 +96,9 @@ if __name__ == '__main__':
 
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
-
-            req = urllib.request.Request("https://{host}")
-            try:
-                response = urllib.request.urlopen(req)
-            except HTTPError as e:
-                print('The server couldn\'t fulfill the request.')
-                print('Error code: ', e.code)
-            except URLError as e:
-                print('We failed to reach a server.')
-                print('Reason: ', e.reason)
-            else:
-                print ('Website is working fine')
-
                 
             try:
-                with urllib.request.urlopen(f"https://{host}:{host_port}/admin/api.php", timeout=10) as url:
+                with urllib.request.urlopen(f"http://{host}:{host_port}/admin/api.php", timeout=10) as url:
                     stats = json.loads(url.read().decode())
             except URLError as e:
                 failure = True
