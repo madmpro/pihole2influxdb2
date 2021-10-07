@@ -14,6 +14,10 @@ from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
 from influxdb_client.client.exceptions import InfluxDBError
 
+import platform    # For getting the operating system name
+import subprocess  # For executing a shell command
+
+
 PROGRAM_DIR = dirname(realpath(__file__))
 HEALTHCHECK_FILE = f"{PROGRAM_DIR}/healthcheck"
 HEALTHCHECK_FAILED = "FAILED"
@@ -30,6 +34,21 @@ RUN_EVERY_SECONDS = int(getenv("RUN_EVERY_SECONDS"))
 VERBOSE = getenv("VERBOSE")
 
 DEBUG = getenv("DEBUG")
+
+def ping(host):
+    """
+    Returns True if host (str) responds to a ping request.
+    Remember that a host may not respond to a ping (ICMP) request even if the host name is valid.
+    """
+
+    # Option for the number of packets as a function of
+    param = '-n' if platform.system().lower()=='windows' else '-c'
+
+    # Building the command. Ex: "ping -c 1 google.com"
+    command = ['ping', param, '1', host]
+
+    return subprocess.call(command) == 0
+
 
 def sigterm_handler(signum, frame):
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SIGTERM received, shutting down..", file=sys.stderr)
@@ -96,7 +115,10 @@ if __name__ == '__main__':
 
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
-                
+            
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Ping: http://{host}:{host_port}/admin/api.php",file=sys.stderr)
+            ping -c 1 {host}
+            
             try:
                 with urllib.request.urlopen(f"http://{host}:{host_port}/admin/api.php", timeout=10) as url:
                     stats = json.loads(url.read().decode())
