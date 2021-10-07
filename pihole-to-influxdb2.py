@@ -113,7 +113,7 @@ if __name__ == '__main__':
             host = PIHOLE_HOSTS_DICT[index]["host"]
             host_name = PIHOLE_HOSTS_DICT[index]["name"]
             host_port = PIHOLE_HOSTS_DICT[index]["port"]
-            PIHOLE_API = "http://{host}:{host_port}/admin/api.php"
+            PIHOLE_API = f"http://{host}:{host_port}/admin/api.php"
 
             if DEBUG:
                 print(f"\n[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Collecting data for host {host}:{host_port}({host_name})...")
